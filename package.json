@@ -24,9 +24,9 @@
   "scripts": {
     "start": "node devserver.js",
     "lint": "eslint src",
-    "build:unminified": "NODE_ENV=production webpack -d --config webpack.config.js",
-    "build:minified": "NODE_ENV=production MINIFIED=1 webpack -d --config webpack.config.js",
-    "build": "npm run build:unminified && npm run build:minified && cp ./release/flowchart.js ./site/flowchart-latest.js",
+    "build:unminified": "SET NODE_ENV=production webpack -d --config webpack.config.js",
+    "build:minified": "SET NODE_ENV=production MINIFIED=1 webpack -d --config webpack.config.js",
+    "build": "npm run build:unminified && npm run build:minified",
     "test": "npm run lint"
   },
   "repository": {

@@ -29,6 +29,7 @@ function Symbol(chart, options, symbol) {
   var font  = this.getAttr('font');
   var fontF = this.getAttr('font-family');
   var fontW = this.getAttr('font-weight');
+  this.roleText = this.getAttr('role');
 
   if (font) this.text.attr({ 'font': font });
   if (fontF) this.text.attr({ 'font-family': fontF });
@@ -55,6 +56,7 @@ function Symbol(chart, options, symbol) {
   }
 
   this.group.push(this.text);
+  
 
   if (symbol) {
     var tmpMargin = this.getAttr('text-margin');
@@ -63,8 +65,8 @@ function Symbol(chart, options, symbol) {
       'fill' : this.getAttr('fill'),
       'stroke' : this.getAttr('element-color'),
       'stroke-width' : this.getAttr('line-width'),
-      'width' : this.text.getBBox().width + 2 * tmpMargin,
-      'height' : this.text.getBBox().height + 2 * tmpMargin
+      'width' : this.text.getBBox().width + 3 * tmpMargin,
+      'height' : this.text.getBBox().height + 3 * tmpMargin
     });
 
     symbol.node.setAttribute('class', this.getAttr('class'));
@@ -75,10 +77,19 @@ function Symbol(chart, options, symbol) {
 
     this.group.push(symbol);
     symbol.insertBefore(this.text);
-
+    
+    
     this.text.attr({
-      'y': symbol.getBBox().height/2
+      'y': symbol.getBBox().height/2 + 3
     });
+
+    if( this.roleText ){
+      this.circle = this.chart.paper.circle(symbol.getBBox().width - 20, 5, 10)
+        .attr({stroke: this.roleText.stroke, fill: this.roleText.fill,  "fill-opacity": this.roleText.opacity || 1});
+      this.circle.insertBefore(this.text);
+      symbol.insertBefore(this.circle);
+      this.group.push(this.circle);
+    }
 
     this.initialize();
   }
@@ -107,8 +118,11 @@ Symbol.prototype.initialize = function() {
 };
 
 Symbol.prototype.getCenter = function() {
+  var x = 0;
+  if( this.roleText )
+    x = 5;
   return {x: this.getX() + this.width/2,
-          y: this.getY() + this.height/2};
+          y: (this.getY() + this.height/2 + 5)};
 };
 
 Symbol.prototype.getX = function() {
@@ -116,7 +130,10 @@ Symbol.prototype.getX = function() {
 };
 
 Symbol.prototype.getY = function() {
-  return this.group.getBBox().y;
+  var x = 0;
+  if(this.roleText)
+    x = 5;
+  return this.group.getBBox().y + x;
 };
 
 Symbol.prototype.shiftX = function(x) {

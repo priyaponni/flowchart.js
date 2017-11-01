@@ -10,8 +10,8 @@
     <div id="chart">
 st=>start: Start|past:>http://www.google.com[blank]
 e=>end: End:>http://www.google.com
-op1=>operation: My Operation|past
-op2=>operation: Stuff|current
+op1=>operation: My Operation|color1
+op2=>operation: Stuff|color1
 sub1=>subroutine: My Subroutine|invalid
 cond=>condition: Yes
 or No?|approved:>http://www.google.com
@@ -28,7 +28,22 @@ c2(no)->op2->e
     <script src="/node_modules/raphael/raphael.js"></script>
     <script src="/release/flowchart.js"></script>
 		<script>
-		$('#chart').flowChart();
+		$('#chart').flowChart({'line-width': 1,
+                    'line-length': 15,
+                    'text-margin': 10,
+                    'font-size': 14,
+                    'font': 'normal',
+                    'flowstate': {
+
+                        'color1' : {
+                            'fill':'#59ABE3',
+                            'font-color' : 'white',
+                            'role' : {
+                              'stroke':'#5f00bf',
+                              'fill' : '#5f00bf',
+                            }
+                        }
+                    }});
 		</script>
   </body>
 </html>

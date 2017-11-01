@@ -10,7 +10,7 @@ var compiler = webpack(config);
 app.use(express.static(process.cwd()));
 
 app.use(require('webpack-dev-middleware')(compiler, {
-	noInfo: true,
+	noInfo: false,
 	publicPath: config.output.publicPath
 }));
 
